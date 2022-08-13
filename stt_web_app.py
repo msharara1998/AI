@@ -14,13 +14,14 @@ tab1, tab2 = st.tabs(['live', 'recorded'])
 button_container = st.container()
 button_columns = st.columns([3.8,1,3.8])
 output = st.container()
+output_options = st.columns([1,1,1,1])
 ph = 'Speak or upload a file to display the corresponding transcription'
 text = ''
 # Constructing Page
 with page:
     with header:
         st.markdown('''
-<div>
+<div id = 'title_wrapper'>
     <h1 style='text-align: center; color: black;'>Speech Recognizer</h1>
 </div>
     ''', unsafe_allow_html=True)
@@ -36,7 +37,10 @@ with page:
 
     with output:
         txt = st.text_area('Transcription', text, placeholder=ph)
-
+        with output_options[1]:
+            st.download_button('Download text', text)
+        with output_options[2]:
+            st.button('send email')
 
 
 

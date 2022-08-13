@@ -1,6 +1,9 @@
 #root > div:nth-child(1) > div.withScreencast > div > div > div > section > div > div:nth-child(1) > div > div.stTabs.css-0.exp6ofz0 > div > div.st-bc.st-b4.st-bd.st-be.st-bf.st-bg.st-bh.st-bi.st-bj.st-bk.st-bl {
     justify-content: center;
 }
+#title_wrapper {
+
+}
 #tabs-568-tabpanel-0 > div:nth-child(1){
     margin-left: 45%;
 }
@@ -9,4 +12,33 @@
 }
 #tabs-4-tabpanel-0 > div:nth-child(1) {
     margin-left: 45%;
+}
+#title_wrapper{
+  text-transform: uppercase;
+  cursor:pointer;
+  margin:20px auto;
+  width:250px;
+  height:160px;
+  background-color: #f5425d;
+  color: white;
+  font-size:2em;
+  text-align: center;
+  padding-top:15px;
+  text-shadow:1px 1px rgba(0,0,0,0.05);
+  box-shadow: -15px 0px 0px 0px #e87b8b,
+0px -15px 0px 0px #e87b8b,
+0px 15px 0px 0px #e87b8b,
+15px 0px 0px 0px #e87b8b;
+  transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s;
+}
+
+#title_wrapper:hover{
+  background-color:#adadad;
+  box-shadow: -15px 0px 0px 0px #d7d7d7,
+0px -15px 0px 0px #d7d7d7,
+0px 15px 0px 0px #d7d7d7,
+15px 0px 0px 0px #d7d7d7;
+
 }
