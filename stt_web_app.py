@@ -11,7 +11,8 @@ input = st.container()
 language = st.container()
 mode = st.container()
 tab1, tab2 = st.tabs(['live', 'recorded'])
-button_container = st.columns([1,1,1])
+button_container = st.container()
+button_columns = st.columns([3.8,1,3.8])
 output = st.container()
 ph = 'Speak or upload a file to display the corresponding transcription'
 text = ''
@@ -29,8 +30,7 @@ with page:
             lang = st.selectbox('Please Select a Language', options=['Arabic', 'English'])
         with mode:
             with tab1:
-                with button_container[1]:
-                    st.button('start')
+                st.button('start')
             with tab2:
                 uploaded_file = st.file_uploader("Choose a file")
 
