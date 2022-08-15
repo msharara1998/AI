@@ -13,7 +13,7 @@ tab1, tab2 = st.tabs(['Live', 'Recorded'])
 button_container = st.container()
 button_columns = st.columns([1,1])
 output = st.container()
-output_options = st.columns([1,1])
+output_options = st.columns([1,1,1])
 
 # Control variables
 PH = 'Speak or upload a file to display the corresponding transcription'
@@ -27,23 +27,24 @@ if 'text' not in st.session_state:
 
 
 def start_listening():
-    st.session_s .tate['run'] = True
+    st.session_state['run'] = True
     st.session_state['text'] = 'Listening...'
-    recognize()
+
 
 
 def stop_listening():
     st.session_state['run'] = False
 
-
-def recognize():
+def clear_text():
+    st.session_state['text'] = ''
+async def recognize():
     while st.session_state['run']:
         rec = sr.Recognizer()
         # Function to convert speech to text
         with sr.Microphone() as source:
             rec.adjust_for_ambient_noise(source, duration=0.5)
             audio = rec.listen(source)
-            lang = (LANG == 'Arabic') * 'ar-LB' + (LANG == 'Arabic') * 'en-US'
+            lang = st.session_state['lang']
             try:
                 txt = rec.recognize_google(audio, language=lang)
                 st.session_state['text'] = txt
@@ -60,8 +61,8 @@ with title:
     st.title('Speech Recognizer')
 with input:
     with language:
-        LANG = st.selectbox('Please Select a Language', options=['Arabic', 'English'])
-        st.session_state['language'] = LANG
+        LANG = st.selectbox('Please Select a Language', options=['ar-LB', 'en-US'])
+        st.session_state['lang'] = LANG
     with mode:
         with tab1:
             with button_columns[0]:
@@ -74,13 +75,18 @@ with output:
     st.text_area('Transcription', st.session_state['text'], placeholder=PH)
 
     with output_options[0]:
-        st.download_button('Download text', TEXT)
+        st.download_button(
+            label='Download text',
+            data=st.session_state['text'],
+            file_name='transcribed_text.txt')
     with output_options[1]:
         email = st.button('Send Email')
+    with output_options[2]:
+        st.button('Clear text', on_click=clear_text)
 
 
 
-#asyncio.run(recognize(LANG))
+asyncio.run(recognize())
 
 # A session is started whenever an instance of Streamlit app is
 # opened in a browser. Each session exists as long as the tab is
