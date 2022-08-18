@@ -5,14 +5,19 @@ import asyncio
 from copy import deepcopy
 from pathlib import Path
 from send_email import send_email
-from ipywebrtc import WidgetStream, AudioRecorder, CameraStream
+import streamlit.components.v1 as components
+from io import BytesIO
+import os
+import numpy as np
+
 # Control variables
 PH = "Speak or upload a file to display the corresponding transcription"
 
-camera = CameraStream(constraints={'audio': True,
-                                   'video': False},
-                      mimeType='audio/wav')
-recorder = AudioRecorder(stream=camera)
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+# Custom REACT-based component for recording client audio in browser
+build_dir = os.path.join(parent_dir, "st_audiorec/frontend/build")
+# specify directory and initialize st_audiorec object functionality
+st_audiorec = components.declare_component("st_audiorec", path=build_dir)
 # Session state
 if "text" not in st.session_state:
     st.session_state["text"] = ""
@@ -21,13 +26,6 @@ if "text" not in st.session_state:
 if "lang" not in st.session_state:
     st.session_state["lang"] = "ar-LB"
 
-def extract_text_recorded_fromfile():
-    src = sr.AudioFile("test.wav")
-    r = sr.Recognizer()
-    with src as source:
-        audio = r.record(source)
-    val = r.recognize_google(audio, language=st.session_state["lang"])
-    st.session_state["text"] = val
 
 
 def extract_text_fromfile():
@@ -116,11 +114,25 @@ st.session_state["lang"] = LANG if LANG else "ar-LB"
 
 tab1, tab2 = st.tabs(["Live", "Recorded"])
 with tab1:
-    if not st.session_state["run"]:
-        st.button("Start", on_click=start_listening)
-    else:
-        st.button("Stop", on_click=stop_listening)
-    st.button("extract", on_click=extract_text_recorded_fromfile)
+    val = st_audiorec()
+    if isinstance(val, dict):  # retrieve audio data
+        with st.spinner('Extracting Text data'):
+            ind, val = zip(*val['arr'].items())
+            ind = np.array(ind, dtype=int)  # convert to np array
+            val = np.array(val)             # convert to np array
+            sorted_ints = val[ind]
+            stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in sorted_ints]))
+            wav_bytes = stream.read()
+            src = sr.AudioFile("test.wav")
+            r = sr.Recognizer()
+            with src as source:
+                audio = r.record(source)
+            returned_text = r.recognize_google(audio, language=st.session_state["lang"])
+            st.session_state["text"] = returned_text
+
+        # wav_bytes contains audio data in format to be further processed
+        # display audio data as received on the Python side
+        st.audio(wav_bytes, format='audio/wav')
 
 with tab2:
     uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"])
