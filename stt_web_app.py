@@ -4,8 +4,6 @@ from pydub import AudioSegment
 import asyncio
 from copy import deepcopy
 from pathlib import Path
-
-# import asyncio
 from send_email import send_email
 
 # Control variables
