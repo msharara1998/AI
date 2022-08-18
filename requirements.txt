@@ -2,7 +2,6 @@ pydub==0.25.1
 SpeechRecognition==3.8.1
 streamlit==1.12.0
 ffmpeg
-libxmlsec1-dev
 setuptools
 wheel
 build-essential
