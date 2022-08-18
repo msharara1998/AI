@@ -283,6 +283,14 @@ test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test_extra = ["pytest (<7.1)", "pytest-asyncio", "testpath", "curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.19)", "pandas", "trio"]
 
 [[package]]
+name = "ipywebrtc"
+version = "0.6.0"
+description = "WebRTC for Jupyter notebook/lab"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "ipywidgets"
 version = "8.0.1"
 description = "Jupyter interactive widgets"
@@ -992,7 +1000,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.6"
-content-hash = "197f3168d8c8a786f67827e596930f5a5a5d13e9c0e654d6e6f354d16e14b30a"
+content-hash = "34b41c8e8076916feabfc767569a6a2cb38850230a1f306a6d5737b612a4b705"
 
 [metadata.files]
 altair = [
@@ -1167,6 +1175,10 @@ ipykernel = [
 ipython = [
     {file = "ipython-8.4.0-py3-none-any.whl", hash = "sha256:7ca74052a38fa25fe9bedf52da0be7d3fdd2fb027c3b778ea78dfe8c212937d1"},
     {file = "ipython-8.4.0.tar.gz", hash = "sha256:f2db3a10254241d9b447232cec8b424847f338d9d36f9a577a6192c332a46abd"},
+]
+ipywebrtc = [
+    {file = "ipywebrtc-0.6.0-py2.py3-none-any.whl", hash = "sha256:01a6c9d79ab937c280ce4635a149c7b681457e99ea779c00c7a6aa44ee6916f8"},
+    {file = "ipywebrtc-0.6.0.tar.gz", hash = "sha256:f8ac3cc02b3633b59f388aef67961cff57f90028fd303bb3886c63c3d631da13"},
 ]
 ipywidgets = [
     {file = "ipywidgets-8.0.1-py3-none-any.whl", hash = "sha256:fc0744df3a964ecfd68a6d2debe547fe89db252b8d7bb3db5740aba72edb0e6c"},
