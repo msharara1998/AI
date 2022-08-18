@@ -93,7 +93,10 @@ async def live_recognize():
 
 
 # Constructing page
-st.title("Speech Recognizer")
+st.set_page_config(page_title='Speech Recognizer',page_icon=None)
+st.markdown("<h1 style='text-align: center; color: black;'>Speech Recognizer</h1>", unsafe_allow_html=True)
+st.info('This application can transcribe live audio or a video/audio file you upload.', icon="ℹ️")
+
 LANG = st.selectbox("Please Select a Language", options=["ar-LB", "en-US"])
 st.session_state["lang"] = LANG if LANG else "ar-LB"
 
@@ -114,7 +117,8 @@ with tab2:
 
 
 st.text_area("Transcription", st.session_state["text"], placeholder=PH)
-
+if st.session_state['text']:
+    st.success("Done!", icon="✅")
 output_options = st.columns([1, 1, 1])
 output_options[0].download_button(
     label="Download text",
