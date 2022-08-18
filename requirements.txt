@@ -1,7 +1,6 @@
 pydub==0.25.1
 SpeechRecognition==3.8.1
 streamlit==1.12.0
-libxml2-dev
 ffmpeg
 libxmlsec1-dev
 setuptools
