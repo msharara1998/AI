@@ -5,9 +5,14 @@ import asyncio
 from copy import deepcopy
 from pathlib import Path
 from send_email import send_email
-
+from ipywebrtc import WidgetStream, AudioRecorder, CameraStream
 # Control variables
 PH = "Speak or upload a file to display the corresponding transcription"
+
+camera = CameraStream(constraints={'audio': True,
+                                   'video': False},
+                      mimeType='audio/wav')
+recorder = AudioRecorder(stream=camera)
 # Session state
 if "text" not in st.session_state:
     st.session_state["text"] = ""
@@ -15,6 +20,15 @@ if "text" not in st.session_state:
 
 if "lang" not in st.session_state:
     st.session_state["lang"] = "ar-LB"
+
+def extract_text_recorded_fromfile():
+    src = sr.AudioFile("test.wav")
+    r = sr.Recognizer()
+    with src as source:
+        audio = r.record(source)
+    val = r.recognize_google(audio, language=st.session_state["lang"])
+    st.session_state["text"] = val
+
 
 def extract_text_fromfile():
     if st.session_state["uploaded_file"] is None:
@@ -56,11 +70,15 @@ def playvideo(video):
 
 def start_listening():
     st.session_state["run"] = True
+    recorder.recording = True
     st.session_state["text"] = ""
 
 
 def stop_listening():
     st.session_state["run"] = False
+    recorder.recording = False
+    with open('test.wav', 'wb') as f:
+        f.write(recorder.audio.value)
 
 
 def clear_text():
@@ -103,6 +121,7 @@ with tab1:
         st.button("Start", on_click=start_listening)
     else:
         st.button("Stop", on_click=stop_listening)
+        st.button("extract", on_click=extract_text_recorded_fromfile)
 
 with tab2:
     uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"])
@@ -133,4 +152,4 @@ if not st.session_state["run"] and st.session_state["text"]:
         )
     else:
         st.session_state["text"] = st.session_state["text"] + "."
-asyncio.run(live_recognize())
+# asyncio.run(live_recognize())
