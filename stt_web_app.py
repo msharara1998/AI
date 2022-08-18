@@ -125,9 +125,9 @@ with tab1:
             wav_bytes = stream.read()
             src = sr.AudioData(wav_bytes, 48000, 1 )
             r = sr.Recognizer()
-            with src as source:
-                audio = r.record(source)
-            returned_text = r.recognize_google(audio, language=st.session_state["lang"])
+            # with src as source:
+            #     audio = r.record(source)
+            returned_text = r.recognize_google(src, language=st.session_state["lang"])
             st.session_state["text"] = returned_text
 
         # wav_bytes contains audio data in format to be further processed
