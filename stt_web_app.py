@@ -5,9 +5,19 @@ import asyncio
 from copy import deepcopy
 from pathlib import Path
 from send_email import send_email
+import streamlit.components.v1 as components
+from io import BytesIO
+import os
+import numpy as np
 
 # Control variables
 PH = "Speak or upload a file to display the corresponding transcription"
+
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+# Custom REACT-based component for recording client audio in browser
+build_dir = os.path.join(parent_dir, "st_audiorec/frontend/build")
+# specify directory and initialize st_audiorec object functionality
+st_audiorec = components.declare_component("st_audiorec", path=build_dir)
 # Session state
 if "text" not in st.session_state:
     st.session_state["text"] = ""
@@ -15,6 +25,8 @@ if "text" not in st.session_state:
 
 if "lang" not in st.session_state:
     st.session_state["lang"] = "ar-LB"
+
+
 
 def extract_text_fromfile():
     if st.session_state["uploaded_file"] is None:
@@ -56,11 +68,14 @@ def playvideo(video):
 
 def start_listening():
     st.session_state["run"] = True
+    recorder.recording = True
     st.session_state["text"] = ""
 
 
 def stop_listening():
     st.session_state["run"] = False
+    recorder.recording = False
+    recorder.save("test.wav")
 
 
 def clear_text():
@@ -99,10 +114,23 @@ st.session_state["lang"] = LANG if LANG else "ar-LB"
 
 tab1, tab2 = st.tabs(["Live", "Recorded"])
 with tab1:
-    if not st.session_state["run"]:
-        st.button("Start", on_click=start_listening)
-    else:
-        st.button("Stop", on_click=stop_listening)
+    val = st_audiorec()
+    if isinstance(val, dict):  # retrieve audio data
+        with st.spinner('Extracting Text data'):
+            ind, val = zip(*val['arr'].items())
+            ind = np.array(ind, dtype=int)  # convert to np array
+            val = np.array(val)             # convert to np array
+            sorted_ints = val[ind]
+            stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in sorted_ints]))
+            wav_bytes = stream.read()
+            with open("test.wav", "wb") as f:
+                f.write(wav_bytes)
+            src = sr.AudioFile("test.wav")
+            r = sr.Recognizer()
+            with src as source:
+                audio = r.record(source)
+            returned_text = r.recognize_google(audio, language=st.session_state["lang"])
+            st.session_state["text"] = returned_text
 
 with tab2:
     uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"])
@@ -133,4 +161,4 @@ if not st.session_state["run"] and st.session_state["text"]:
         )
     else:
         st.session_state["text"] = st.session_state["text"] + "."
-asyncio.run(live_recognize())
+# asyncio.run(live_recognize())
