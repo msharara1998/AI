@@ -121,7 +121,7 @@ with tab1:
         st.button("Start", on_click=start_listening)
     else:
         st.button("Stop", on_click=stop_listening)
-        st.button("extract", on_click=extract_text_recorded_fromfile)
+    st.button("extract", on_click=extract_text_recorded_fromfile)
 
 with tab2:
     uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"])
