@@ -77,8 +77,7 @@ def start_listening():
 def stop_listening():
     st.session_state["run"] = False
     recorder.recording = False
-    with open('test.wav', 'wb') as f:
-        f.write(recorder.audio.value)
+    recorder.save("test.wav")
 
 
 def clear_text():
