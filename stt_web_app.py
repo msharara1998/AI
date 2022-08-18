@@ -4,7 +4,6 @@ from pydub import AudioSegment
 import asyncio
 from copy import deepcopy
 from pathlib import Path
-from moviepy.editor import *
 
 # import asyncio
 from send_email import send_email
@@ -93,7 +92,7 @@ async def live_recognize():
 
 
 # Constructing page
-st.set_page_config(page_title='Speech Recognizer',page_icon='None')
+st.set_page_config(page_title='Speech Recognizer',page_icon='🎙️')
 st.markdown("<h1 style='text-align: center; color: black;'>Speech Recognizer</h1>", unsafe_allow_html=True)
 st.info('This application can transcribe live audio or a video/audio file you upload.', icon="ℹ️")
 
