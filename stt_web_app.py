@@ -97,7 +97,7 @@ st.set_page_config(page_title='Speech Recognizer',page_icon='🎙️')
 st.markdown("<h1 style='text-align: center; color: black;'>Speech Recognizer</h1>", unsafe_allow_html=True)
 st.info('This application can transcribe live audio or a video/audio file you upload.', icon="ℹ️")
 
-LANG = st.selectbox("Please Select a Language", options=["ar-LB", "en-US"])
+LANG = st.selectbox("Please Select a Language", options=["ar-LB", "en-US",'fr-FR'])
 st.session_state["lang"] = LANG if LANG else "ar-LB"
 
 tab1, tab2 = st.tabs(["Live", "Recorded"])
