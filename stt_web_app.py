@@ -4,6 +4,7 @@ from pydub import AudioSegment
 import asyncio
 from copy import deepcopy
 from pathlib import Path
+from moviepy.editor import *
 
 # import asyncio
 from send_email import send_email
@@ -17,7 +18,6 @@ if "text" not in st.session_state:
 
 if "lang" not in st.session_state:
     st.session_state["lang"] = "ar-LB"
-
 
 def extract_text_fromfile():
     if st.session_state["uploaded_file"] is None:
