@@ -132,10 +132,6 @@ with tab1:
             returned_text = r.recognize_google(audio, language=st.session_state["lang"])
             st.session_state["text"] = returned_text
 
-        # wav_bytes contains audio data in format to be further processed
-        # display audio data as received on the Python side
-        st.audio(wav_bytes, format='audio/wav')
-
 with tab2:
     uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"])
     st.session_state["uploaded_file"] = uploaded_file
