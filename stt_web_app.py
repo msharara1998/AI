@@ -123,11 +123,13 @@ with tab1:
             sorted_ints = val[ind]
             stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in sorted_ints]))
             wav_bytes = stream.read()
-            src = sr.AudioData(wav_bytes, 48000, 1 )
+            with open("test.wav", "wb") as f:
+                f.write(wav_bytes)
+            src = sr.AudioFile("test.wav")
             r = sr.Recognizer()
-            # with src as source:
-            #     audio = r.record(source)
-            returned_text = r.recognize_google(src, language=st.session_state["lang"])
+            with src as source:
+                audio = r.record(source)
+            returned_text = r.recognize_google(audio, language=st.session_state["lang"])
             st.session_state["text"] = returned_text
 
         # wav_bytes contains audio data in format to be further processed
