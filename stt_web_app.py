@@ -123,7 +123,7 @@ with tab1:
             sorted_ints = val[ind]
             stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in sorted_ints]))
             wav_bytes = stream.read()
-            src = sr.AudioFile("test.wav")
+            src = sr.AudioData(wav_bytes, val[0], val[1])
             r = sr.Recognizer()
             with src as source:
                 audio = r.record(source)
