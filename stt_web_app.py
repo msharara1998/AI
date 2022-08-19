@@ -155,7 +155,7 @@ output_options[2].button("Clear text", on_click=clear_text)
 
 
 if not st.session_state["run"] and st.session_state["text"]:
-    if st.session_state["lang"] == "en-US":
+    if st.session_state["lang"] in ["en-US","fr-FR"]:
         st.session_state["text"] = (
             st.session_state["text"][0].upper() + st.session_state["text"][1:-1] + "."
         )
