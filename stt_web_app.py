@@ -51,7 +51,7 @@ def playfile():
         st.warning("Please upload a file first")
     else:
         if uploaded_file.name[len(uploaded_file.name) - 3 :] == "mp4":
-            playvideo(uploaded_file)
+            playvideo(deepcopy(uploaded_file))
         else:
             playaudio(deepcopy(uploaded_file))
 
