@@ -152,7 +152,7 @@ output_options[0].download_button(
     data=st.session_state["text"],
     file_name="transcribed_text.txt",
 )
-output_options[1].button("Send Email", onclick=send_email)
+output_options[1].button("Send Email", on_click=send_email)
 output_options[2].button("Clear text", on_click=clear_text)
 
 
