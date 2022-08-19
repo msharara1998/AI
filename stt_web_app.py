@@ -133,7 +133,7 @@ with tab1:
             st.session_state["text"] = returned_text
 
 with tab2:
-    uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"]
+    uploaded_file = st.file_uploader("Choose a file", type=["wav", "mp3", "mp4", "ogg"])
     st.session_state["uploaded_file"] = uploaded_file
     button_columns_tab2 = st.columns([1, 1])
     if button_columns_tab2[0].button("Play Uploaded File"):
